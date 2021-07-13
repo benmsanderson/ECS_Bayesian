@@ -118,19 +118,75 @@
 
 
 \begin{abstract}
-Equilibrium Climate Sensitivity (ECS) of an Earth System Model is the equilibrium increase in global mean temperature experienced in response to an instantaneous doubling change in carbon dioxide concentrations.  Full equilibration occurs on a timescale of millennia, and ECS is generally approximated by the Effective Climate Sensitivity, a linear extrapolation of temperature as a function of top of atmosphere energetic imbalance to estimate the temperature change in an equilibrated state.  In this study, we consider an alternative approach for estimating ECS through Bayesian calibration of a multiple timescale response model.  Though the method leaves large uncertainties in ECS using conventional 150 year CO2 quadrupling experiments, application to millennial timescale experiments suggests potential biases in EffCS in the case of particular models where the equilibrium energetic state of the model differs between the pre-industrial and quadrupled CO2 states.  These biases may imply a reconsideration of certain CMIP6 model climate sensitivities, potentially ruling out models which exhibited high climate sensitivity and low transient climate response. 
+Model estimates of equilibrium climate sensitivity are generally approximated from tendencies in 150  year simulations, given full equilibration occurs on timescales of millennia.  Estimates are made by linear extrapolation of temperature as a function of top of atmosphere energetic imbalance to estimate the temperature change in an equilibrated state.  In this study, we consider an alternative approach for estimating ECS through Bayesian calibration of a multiple timescale response model.  Though the method leaves large uncertainties in ECS using conventional 150 year CO2 quadrupling experiments, application to millennial timescale experiments suggests potential biases in EffCS in the case of particular models where the equilibrium energetic state of the model differs between the pre-industrial and quadrupled CO2 states.  These biases may imply a reconsideration of certain CMIP6 model climate sensitivities, potentially ruling out models which exhibited high climate sensitivity and low transient climate response. 
 \end{abstract}
 
 
-\copyrightstatement{TEXT} %% This section is optional and can be used for copyright transfers.
+%\copyrightstatement{TEXT} %% This section is optional and can be used for copyright transfers.
 
 
-\introduction  %% \introduction[modified heading if necessary]
-TEXT
+\introduction  
+Equilibrium Climate Sensitivity (ECS) of an Earth System Model is the equilibrium increase in global mean temperature experienced in response to an instantaneous doubling change in carbon dioxide concentrations.  Introduced as a metric of response of the Earth System to greenhouse gases in the early years of computational climate science \citep{charney1979carbon,hansen1984climate}, it remains a very common metric of the sensitivity of the Earth to greenhouse gas forcing \cite{knutti2017beyond,stocker2013climate}.
+
+Measuring ECS in a coupled climate model, however, is difficult owing to the time required for the equilibration of the system to a change in forcing \cite{wetherald2001committed,solomon2010persistence,jarvis2011contribution}. necessitating simulations of multiple millennia to obtain a near-equilibrated estimate of temperature response \cite{rugenstein2020equilibrium}.  The computational burden of conducting such simulations implies that standard practise for model assessment \citep{stocker2013climate,forster2016inference,andrews2012forcing} is to measure an "Effective Climate Sensitivity" (EffCS) using feedbacks extrapolated from those measures in the first 150 years of a quadrupled CO$_2$ simulation \cite{gregory2004new,murphy1995transient}.
+
+Recent work, however, has highlighted potential uncertainties in the EffCS approximation of ECS - studies have found that net radiative feedbacks can exhibit both timescale dependencies \cite{proistosescu2017slow,andrews2018accounting} and state dependencies \citep{pfister2017state,bloch2021climate} both of which draw into question the implicit constant feedback assumption used in the derivation of EffCS.
+
+The LongrunMIP project set out to quantify this error by running a subset of Earth System Models in idealised carbon dioxide perturbation experiments with simulations of millennial timescale response \citep{rugenstein2019longrunmip}.  Initial studies compared the EffCS as derived using the first 150 years of the simulation with that derived using the last 15 percent of warming in multi-thousand year experiments - finding that the accuracy of the EffCS varied by model, but in most cases represented a 10$\%$ error or less in the estimate of ECS \cite{rugenstein2020equilibrium}.
+
+A general assessment of the likely range of EffCS \citep{sherwood2020assessment} explicitly requires prior assumptions on the ratio of ECS:EffCS (represented by a parameter $\zeta$ such that ECS/EffCS is given by $(1+\zeta)$), given that the confidence in headline upper bound of EffCS in the study rests on combined evidence of paleo evidence and recent historical evidence.  The paleo evidence represents the near-equilibrium response, so prior confidence that $\zeta$ is small, itself arising from LongrunMIP \citep{rugenstein2020equilibrium}, contributes to the headline result that values of EffCS of greater than 4.5K are unlikely.
+
+The findings of \cite{sherwood2020assessment} somewhat challenge the use of the CMIP6 ensemble of climate models \citep{eyring2016overview} as a proxy for climate projection uncertainty in assessment \citep{o2016scenario}, given approximately 1/3 of the ensemble \citep{meehl2020context} have EffCS values of greater than  4.7K (the 95th percentile of the distribution as assessed by \cite{sherwood2014spread}).  The high EffCS values in CMIP6 have been attributed to stronger positive cloud feedbacks \cite{zelinka2020causes}.  
+
+So how plausible are the higher sensitivity models?  Studies have found that one of the higher sensitivity models (CESM2) tend to perform more poorly in paleoclimate simulations than its lower sensitivity predecessors \citep{zhu2020high}.  Although studies \citep{nijsse2020emergent,tokarska2020past} suggest that post-1980 warming may help constrain the Transient Climate Response (the warming expected at time of CO$_2$ doubling in an experiment with a 1 percent annual concentration increase), the constrain on EffCS from historical warming alone is weaker both in terms of correlations in the CMIP ensemble \cite{tokarska2018cumulative} and in ensembles of simple models \cite{sanderson2020relating,sherwood2020assessment}.
+
+A core assumption in the calculation of EffCS is that the system will ultimately stabilise in a state of energetic balance \cite{gregory2004new}.  However, in practise a number of models exhibit energetic radiative top of atmosphere imbalances in the control state \cite{rugenstein2019longrunmip}, and as such the Effective Climate Sensitivity is calculated using net fluxes relative to the control mean top of atmosphere net radiative fluxes.  However, it remains untested as to whether such models will ultimately converge to the same state of imbalance.
+
+In the present study, we consider an alternative approach for calculating climate sensitivity from a climate simulation in which there is a step change in carbon dioxide concentrations.  We consider how the method of calculating effective climate sensitivity, either from initial response or from millennial scale simulations, may be potentially subject to biases arising from assumptions on the equilibrated radiative state.  Finally, we consider how these uncertainties may relate to our confidence in the relationship between climate feedbacks on the post-industrial and paleoclimate timescales.
+
+\section{Methods}
+We consider available pre-industrial control simulations (PiCTRL) and abrupt CO2 quadrupling experiments (4xCO2) from 3 available ensembles: CMIP5 \citep{taylor2012overview}, CMIP6 \citep{eyring2016overview} and LongRunMIP \cite{rugenstein2019longrunmip}.  From each of these, we compute global averages of surface temperature, plus top of atmosphere shortwave and longwave fluxes.
+
+We assume that the temperature and radiative timeseries can be modelled by a sum of exponential decay terms, a basis set \cite{proistosescu2017slow,sanderson2020relating} which is consistent with the general solution of two layer simple climate models with \cite{geoffroy2013transient,winton2010importance,smith2018fair} or without \cite{geoffroy2013constant} terms for ocean heat uptake efficacy.  
+
+As in \cite{proistosescu2017slow}, we allow for three independent equilibration timescales, such that:
 
 
-\section{HEADING}
-TEXT
+\begin{align}
+   T(t)&=\sum_{n=1}^3 S_n(1-e^{-(t/\tau_n)})+T_0\\
+   R(t)&=\sum_{n=1}^3 R_n(-e^{-(t/\tau_n)})+R_0.
+\label{eq1}
+\end{align}
+
+Where $T(t)$ and $R(t)$ are the global annual mean surface temperature and net top of atmosphere radiative flux timeseries respectively, $tau_n$ is the decay time associated with the timescale $n$, $S_n$ and $R_n$ are scaling factors and $T_0$ and $R_0$ are constant terms. $T_0$ is taken as the mean temperature in the last available 500 years of the control simulation.  $R_0$ represents the radiative flux imbalance at an infinite time, and is calibrated during the analysis.  In models with no energetic leaks, $R_0=0$, but this is not always the case and small energetic imbalances remain in some models even after the model global mean temperature trends have ceased \citep{rugenstein2019longrunmip}.
+
+\subsection{Bayesian Calibration of long term response parameters}
+We fit the response equations detailed in \ref{eq1} to the output of each ensemble member's global mean radiative flux and surface temperature timeseries using a Markov Chain Monte Carlo optimizer \cite{foreman2013emcee} (as implemented in the 'lmfit' Python module), allowing for $n=3$ representative decay timescales.  Parameter ranges are constrained according to Table \ref{tb1}.  
+
+\begin{table}[]
+    \centering
+    \begin{tabular}{l|l|l|c|c}
+    Parameter & long name & Units & Min value & Max value \\
+    $S_1$ & Short timescale sensitivity & K & 0 & 10 \\
+    $S_2$ & Intermediate timescale sensitivity & K & 0 & 10 \\
+    $S_3$ & Long timescale sensitivity & K & 0 & 10 \\
+    $\tau_1$ & Short timescale & years & 0 & 10 \\
+    $\tau_2$ & Intermediate timescale & years & 100 & 150 \\
+    $\tau_3$ & Long timescale & years & 150 & 2000 \\
+    $R_0$ & Equilibrium energy leak & Wm$^{-2}$ & -5 & 5 \\
+    \end{tabular}
+    \caption{Parameters and prior ranges considered in the Bayesian calibration of equation \ref{eq1}}
+    \label{tab:my_label}
+\end{table}
+
+The results for the fitted exponential models for 4xCO2 simulations in the LongRunMIP archive are presented in Figure \ref{fig:greg_lrmip}.  
+
+\begin{figure}
+    \centering
+    \includegraphics[width=\linewidth]{greg_lrmip.png}
+    \caption{An illustration of the }
+    \label{fig:greg_lrmip}
+\end{figure}
 
 
 \subsection{HEADING}
@@ -199,192 +255,8 @@ TEXT
 
 
 
-%% REFERENCES
-
-%% The reference list is compiled as follows:
-
-\begin{thebibliography}{}
-
-\bibitem[AUTHOR(YEAR)]{LABEL1}
-REFERENCE 1
-
-\bibitem[AUTHOR(YEAR)]{LABEL2}
-REFERENCE 2
-
-\end{thebibliography}
-
-%% Since the Copernicus LaTeX package includes the BibTeX style file copernicus.bst,
-%% authors experienced with BibTeX only have to include the following two lines:
-%%
-%% \bibliographystyle{copernicus}
-%% \bibliography{example.bib}
-%%
-%% URLs and DOIs can be entered in your BibTeX file as:
-%%
-%% URL = {http://www.xyz.org/~jones/idx_g.htm}
-%% DOI = {10.5194/xyz}
-
-
-%% LITERATURE CITATIONS
-%%
-%% command                        & example result
-%% \citet{jones90}|               & Jones et al. (1990)
-%% \citep{jones90}|               & (Jones et al., 1990)
-%% \citep{jones90,jones93}|       & (Jones et al., 1990, 1993)
-%% \citep[p.~32]{jones90}|        & (Jones et al., 1990, p.~32)
-%% \citep[e.g.,][]{jones90}|      & (e.g., Jones et al., 1990)
-%% \citep[e.g.,][p.~32]{jones90}| & (e.g., Jones et al., 1990, p.~32)
-%% \citeauthor{jones90}|          & Jones et al.
-%% \citeyear{jones90}|            & 1990
-
-
-
-%% FIGURES
-
-%% When figures and tables are placed at the end of the MS (article in one-column style), please add \clearpage
-%% between bibliography and first table and/or figure as well as between each table and/or figure.
-
-% The figure files should be labelled correctly with Arabic numerals (e.g. fig01.jpg, fig02.png).
-
-
-%% ONE-COLUMN FIGURES
-
-%%f
-%\begin{figure}[t]
-%\includegraphics[width=8.3cm]{FILE NAME}
-%\caption{TEXT}
-%\end{figure}
-%
-%%% TWO-COLUMN FIGURES
-%
-%%f
-%\begin{figure*}[t]
-%\includegraphics[width=12cm]{FILE NAME}
-%\caption{TEXT}
-%\end{figure*}
-%
-%
-%%% TABLES
-%%%
-%%% The different columns must be seperated with a & command and should
-%%% end with \\ to identify the column brake.
-%
-%%% ONE-COLUMN TABLE
-%
-%%t
-%\begin{table}[t]
-%\caption{TEXT}
-%\begin{tabular}{column = lcr}
-%\tophline
-%
-%\middlehline
-%
-%\bottomhline
-%\end{tabular}
-%\belowtable{} % Table Footnotes
-%\end{table}
-%
-%%% TWO-COLUMN TABLE
-%
-%%t
-%\begin{table*}[t]
-%\caption{TEXT}
-%\begin{tabular}{column = lcr}
-%\tophline
-%
-%\middlehline
-%
-%\bottomhline
-%\end{tabular}
-%\belowtable{} % Table Footnotes
-%\end{table*}
-%
-%%% LANDSCAPE TABLE
-%
-%%t
-%\begin{sidewaystable*}[t]
-%\caption{TEXT}
-%\begin{tabular}{column = lcr}
-%\tophline
-%
-%\middlehline
-%
-%\bottomhline
-%\end{tabular}
-%\belowtable{} % Table Footnotes
-%\end{sidewaystable*}
-%
-%
-%%% MATHEMATICAL EXPRESSIONS
-%
-%%% All papers typeset by Copernicus Publications follow the math typesetting regulations
-%%% given by the IUPAC Green Book (IUPAC: Quantities, Units and Symbols in Physical Chemistry,
-%%% 2nd Edn., Blackwell Science, available at: http://old.iupac.org/publications/books/gbook/green_book_2ed.pdf, 1993).
-%%%
-%%% Physical quantities/variables are typeset in italic font (t for time, T for Temperature)
-%%% Indices which are not defined are typeset in italic font (x, y, z, a, b, c)
-%%% Items/objects which are defined are typeset in roman font (Car A, Car B)
-%%% Descriptions/specifications which are defined by itself are typeset in roman font (abs, rel, ref, tot, net, ice)
-%%% Abbreviations from 2 letters are typeset in roman font (RH, LAI)
-%%% Vectors are identified in bold italic font using \vec{x}
-%%% Matrices are identified in bold roman font
-%%% Multiplication signs are typeset using the LaTeX commands \times (for vector products, grids, and exponential notations) or \cdot
-%%% The character * should not be applied as mutliplication sign
-%
-%
-%%% EQUATIONS
-%
-%%% Single-row equation
-%
-%\begin{equation}
-%
-%\end{equation}
-%
-%%% Multiline equation
-%
-%\begin{align}
-%& 3 + 5 = 8\\
-%& 3 + 5 = 8\\
-%& 3 + 5 = 8
-%\end{align}
-%
-%
-%%% MATRICES
-%
-%\begin{matrix}
-%x & y & z\\
-%x & y & z\\
-%x & y & z\\
-%\end{matrix}
-%
-%
-%%% ALGORITHM
-%
-%\begin{algorithm}
-%\caption{...}
-%\label{a1}
-%\begin{algorithmic}
-%...
-%\end{algorithmic}
-%\end{algorithm}
-%
-%
-%%% CHEMICAL FORMULAS AND REACTIONS
-%
-%%% For formulas embedded in the text, please use \chem{}
-%
-%%% The reaction environment creates labels including the letter R, i.e. (R1), (R2), etc.
-%
-%\begin{reaction}
-%%% \rightarrow should be used for normal (one-way) chemical reactions
-%%% \rightleftharpoons should be used for equilibria
-%%% \leftrightarrow should be used for resonance structures
-%\end{reaction}
-%
-%
-%%% PHYSICAL UNITS
-%%%
-%%% Please use \unit{} and apply the exponential notation
+\bibliographystyle{copernicus}
+\bibliography{sample_full.bib}
 
 
 \end{document}
